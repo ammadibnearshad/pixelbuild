@@ -1,0 +1,26 @@
+/* The mask clips each word to its line box; the padding/margin pair gives
+   descenders (g, y, p) room so they are not shaved off. */
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.word {
+  display: inline-block;
+  transform: translateY(105%);
+  transition: transform 0.85s var(--ease-reveal) calc(var(--i) * var(--word-step, 45ms));
+}
+
+.split[data-shown='true'] .word {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    transform: none;
+    transition: none;
+  }
+}

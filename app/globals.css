@@ -1,0 +1,135 @@
+/* ==========================================================================
+   The Pixel Build — design tokens + base layer
+   Tokens mirror the handoff spec in README.md. Component styling lives in
+   co-located *.module.css files; nothing but the base layer is global.
+   ========================================================================== */
+
+:root {
+  /* Surfaces */
+  --bg: #0a0a0a;
+  --bg-band: #101210;
+  --surface: #111311;
+  --surface-work: #0e100e;
+  --surface-quote: #0c0e0c;
+  --surface-well: #141614;
+  --surface-button: #161816;
+  --surface-avatar: #1a1d1a;
+
+  /* Accent */
+  --accent: #c8f751;
+  --accent-deep: #8fe04b;
+  --accent-muted: #5c6b3c;
+  --accent-hover: #e3ff9b;
+
+  /* Text */
+  --text: #f4f6f1;
+  --text-secondary: #a7ad9f;
+  --text-muted: #9aa093;
+  --text-dim: #b9bfb1;
+  --text-faint: #7e8577;
+  --text-meta: #6f7568;
+
+  /* Lines */
+  --border-hairline: rgba(255, 255, 255, 0.06);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-stronger: rgba(255, 255, 255, 0.18);
+  --accent-border: rgba(200, 247, 81, 0.3);
+  --accent-border-mid: rgba(200, 247, 81, 0.4);
+  --accent-border-hover: rgba(200, 247, 81, 0.45);
+
+  /* Layout */
+  --page-width: 1240px;
+  --page-gutter: 24px;
+
+  /* Motion */
+  --ease-reveal: cubic-bezier(0.16, 0.84, 0.28, 1);
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Type */
+  --font-display: var(--font-bricolage), "Bricolage Grotesque", sans-serif;
+  --font-body: var(--font-manrope), Manrope, system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Fixed header clearance for in-page anchors. */
+:target,
+[id] {
+  scroll-margin-top: 80px;
+}
+
+/* Hide the native pointer only while the custom cursor is actually mounted.
+   The attribute is set by CustomCursor after it confirms a fine pointer, a
+   viewport over 900px and no reduced-motion preference — so touch and
+   reduced-motion visitors, and anyone without JS, keep the system cursor.
+   `!important` is deliberate here: this is a global mode switch that has to
+   beat every component-level `cursor:` rule (pointer, grab, default). */
+html[data-custom-cursor='true'] * {
+  cursor: none !important;
+}
+
+/* Visible focus for every interactive control — the prototype removed outlines. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Kill every decorative motion when the OS asks for it. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

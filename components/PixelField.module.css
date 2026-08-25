@@ -1,0 +1,134 @@
+/* Fixed, inert, and behind every section. Content sits at z-index 1. */
+.field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+/* ---------- pixel grid ---------- */
+
+.grid,
+.gridLit {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Brighter, lime-tinted copy of the same grid, masked to a circle that
+   follows the cursor — the field appears to light up under the pointer. */
+.gridLit {
+  background-image:
+    linear-gradient(to right, rgba(200, 247, 81, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(200, 247, 81, 0.16) 1px, transparent 1px);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-soft);
+  -webkit-mask-image: radial-gradient(
+    220px circle at var(--mx, -999px) var(--my, -999px),
+    #000 0%,
+    rgba(0, 0, 0, 0.35) 45%,
+    transparent 72%
+  );
+  mask-image: radial-gradient(
+    220px circle at var(--mx, -999px) var(--my, -999px),
+    #000 0%,
+    rgba(0, 0, 0, 0.35) 45%,
+    transparent 72%
+  );
+}
+
+.field[data-lit='true'] .gridLit {
+  opacity: 1;
+}
+
+/* ---------- parallax squares ---------- */
+
+/* Two stacked tiles, one viewport each. Scrolling translates by
+   `offset % viewport`, so the second tile always covers the gap. */
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200vh;
+  will-change: transform;
+}
+
+.tile {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.pixel {
+  position: absolute;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.055);
+  animation-name: drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.pixel[data-lime='true'] {
+  background: rgba(200, 247, 81, 0.1);
+}
+
+/* Nearer layers read slightly stronger. */
+.layer[data-depth='1'] .pixel {
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.layer[data-depth='1'] .pixel[data-lime='true'] {
+  background: rgba(200, 247, 81, 0.085);
+}
+
+.layer[data-depth='2'] .pixel {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.layer[data-depth='2'] .pixel[data-lime='true'] {
+  background: rgba(200, 247, 81, 0.07);
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 0.45;
+  }
+}
+
+/* Thin the field out on small screens — less paint, less clutter. */
+@media (max-width: 749px) {
+  .grid,
+  .gridLit {
+    background-size: 32px 32px;
+  }
+
+  .layer[data-depth='2'] {
+    display: none;
+  }
+
+  .pixel:nth-child(even) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel {
+    animation: none;
+  }
+
+  .gridLit {
+    transition: none;
+  }
+}

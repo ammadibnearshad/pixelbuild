@@ -1,0 +1,12 @@
+/* Sized by height so the 122.84 x 43.62 lockup keeps its aspect ratio —
+   at 26px tall it renders roughly 73px wide. */
+.logo {
+  height: 26px;
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+}
+
+.accent {
+  fill: var(--accent);
+}

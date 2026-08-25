@@ -1,0 +1,71 @@
+.footer {
+  padding: 60px var(--page-gutter) 36px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.descriptor {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 32ch;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.columnHeading {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-meta);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.link {
+  width: fit-content;
+  color: var(--text-dim);
+  font-size: 14px;
+  transition:
+    color 0.3s,
+    transform 0.3s var(--ease-out-soft);
+}
+
+.link:hover {
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  padding-top: 24px;
+  color: var(--text-meta);
+  font-size: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link:hover {
+    transform: none;
+  }
+}

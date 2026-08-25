@@ -1,0 +1,22 @@
+.container {
+  max-width: var(--page-width);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.eyebrow[data-tone='accent'] {
+  color: var(--accent);
+}
+
+.eyebrow[data-tone='muted'] {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+

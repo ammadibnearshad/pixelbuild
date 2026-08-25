@@ -1,0 +1,15 @@
+/* Clips the hero glow at the top of the page, matching the prototype's root wrapper. */
+.root {
+  position: relative;
+  background: var(--bg);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* PixelField is fixed at z-index 0, so the content needs its own stacking
+   context to sit above it. */
+.main,
+.footer {
+  position: relative;
+  z-index: 1;
+}

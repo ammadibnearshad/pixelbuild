@@ -1,0 +1,57 @@
+/* The wrapper only carries position, so size changes ease around the true
+   pointer point rather than dragging the shape off-centre. */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 130;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cursor[data-visible='true'] {
+  opacity: 1;
+}
+
+.shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  /* Dark rim keeps the lime fill readable on the lime marquee and CTA panel,
+     where a plain solid dot would disappear. */
+  border: 1.5px solid rgba(10, 10, 10, 0.55);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.28s var(--ease-out-soft),
+    height 0.28s var(--ease-out-soft),
+    border-radius 0.28s var(--ease-out-soft),
+    transform 0.2s var(--ease-out-soft);
+}
+
+/* Over anything clickable. */
+.cursor[data-mode='active'] .shape {
+  width: 46px;
+  height: 46px;
+}
+
+/* Over text fields — stands in for the I-beam we removed. */
+.cursor[data-mode='text'] .shape {
+  width: 3px;
+  height: 24px;
+  border-radius: 2px;
+}
+
+.cursor[data-pressed='true'] .shape {
+  transform: translate(-50%, -50%) scale(0.82);
+}
+
+@media (max-width: 900px) {
+  .cursor {
+    display: none;
+  }
+}

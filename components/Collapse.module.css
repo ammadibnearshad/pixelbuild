@@ -1,0 +1,36 @@
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s var(--ease-out-soft);
+}
+
+.collapse[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+
+.clip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Content drifts up slightly behind the height change so the two read as one move. */
+.inner {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.3s var(--ease-out-soft),
+    transform 0.35s var(--ease-out-soft);
+}
+
+.collapse[data-open='true'] .inner {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapse,
+  .inner {
+    transition: none;
+  }
+}

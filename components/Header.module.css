@@ -1,0 +1,262 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 110;
+  padding: 14px 0;
+  background: rgba(10, 10, 10, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-hairline);
+  transition:
+    padding 0.4s var(--ease-out-soft),
+    background 0.4s var(--ease-out-soft),
+    border-color 0.4s var(--ease-out-soft);
+}
+
+/* Tightens once you scroll off the hero. */
+.header[data-condensed='true'] {
+  padding: 8px 0;
+  background: rgba(10, 10, 10, 0.9);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 var(--page-gutter);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  color: var(--text);
+}
+
+.brand:hover {
+  color: var(--text);
+}
+
+.logo {
+  transition:
+    transform 0.4s var(--ease-out-soft),
+    height 0.4s var(--ease-out-soft);
+}
+
+.brand:hover .logo {
+  transform: translateY(-2px) scale(1.04);
+}
+
+/* Shrinks in step with the header's padding when it condenses. */
+.header[data-condensed='true'] .logo {
+  height: 22px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.navLink {
+  position: relative;
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 0;
+  transition: color 0.3s;
+}
+
+.navLink:hover,
+.navLink[data-active='true'] {
+  color: var(--accent);
+}
+
+/* Underline sweeps out from the centre on hover and stays for the active section. */
+.navUnderline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s var(--ease-out-soft);
+}
+
+.navLink:hover .navUnderline,
+.navLink[data-active='true'] .navUnderline {
+  transform: scaleX(1);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cta {
+  background: var(--accent);
+  color: var(--bg);
+  padding: 11px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    transform 0.3s var(--ease-out-soft),
+    box-shadow 0.3s var(--ease-out-soft),
+    background 0.3s;
+}
+
+.cta:hover {
+  color: var(--bg);
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 247, 81, 0.24);
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--surface-button);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.hamburger:hover {
+  border-color: var(--accent-border);
+}
+
+.bars {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  box-shadow:
+    0 -6px 0 var(--text),
+    0 6px 0 var(--text);
+}
+
+/* The page's only hard breakpoint. */
+@media (max-width: 900px) {
+  .nav,
+  .cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* ---------- Mobile overlay ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 115;
+  background: var(--bg);
+  padding: 96px var(--page-gutter) 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  animation: overlayIn 0.35s var(--ease-out-soft) both;
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--surface-button);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.overlayLink,
+.overlayCta {
+  animation: linkIn 0.5s var(--ease-reveal) both;
+  animation-delay: calc(60ms + var(--i) * 60ms);
+}
+
+@keyframes linkIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.overlayLink {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.overlayLink:hover {
+  color: var(--accent);
+}
+
+.overlayCta {
+  margin-top: 24px;
+  background: var(--accent);
+  color: var(--bg);
+  text-align: center;
+  padding: 16px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.overlayCta:hover {
+  color: var(--bg);
+  background: var(--accent-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand:hover .logo,
+  .cta:hover {
+    transform: none;
+  }
+
+  .overlay,
+  .overlayLink,
+  .overlayCta {
+    animation: none;
+  }
+}

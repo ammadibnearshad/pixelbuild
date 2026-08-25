@@ -1,0 +1,93 @@
+/* ==========================================================================
+   Scroll reveal
+   `.reveal` animates itself; `.group` animates its direct children in sequence.
+   Both share the same hidden/shown states so variants stay consistent.
+   ========================================================================== */
+
+.reveal,
+.group > * {
+  opacity: 0;
+  transition:
+    opacity 0.75s var(--ease-reveal) var(--reveal-delay, 0ms),
+    transform 0.75s var(--ease-reveal) var(--reveal-delay, 0ms);
+}
+
+/* ---------- hidden state, per variant ---------- */
+
+.reveal[data-variant='up'],
+.group[data-variant='up'] > * {
+  transform: translateY(28px);
+}
+
+.reveal[data-variant='up-sm'],
+.group[data-variant='up-sm'] > * {
+  transform: translateY(14px);
+}
+
+.reveal[data-variant='fade'],
+.group[data-variant='fade'] > * {
+  transform: none;
+}
+
+.reveal[data-variant='scale'],
+.group[data-variant='scale'] > * {
+  transform: scale(0.97);
+}
+
+.reveal[data-variant='left'],
+.group[data-variant='left'] > * {
+  transform: translateX(-24px);
+}
+
+.reveal[data-variant='right'],
+.group[data-variant='right'] > * {
+  transform: translateX(24px);
+}
+
+/* ---------- shown state (must follow the variants above) ---------- */
+
+.reveal[data-shown='true'],
+.group[data-shown='true'] > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- cascade ---------- */
+
+.group > *:nth-child(2) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 1);
+}
+.group > *:nth-child(3) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 2);
+}
+.group > *:nth-child(4) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 3);
+}
+.group > *:nth-child(5) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 4);
+}
+.group > *:nth-child(6) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 5);
+}
+.group > *:nth-child(7) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 6);
+}
+.group > *:nth-child(8) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 7);
+}
+
+/* Anything past the eighth child shares the last delay rather than trailing. */
+.group > *:nth-child(n + 9) {
+  --reveal-delay: calc(var(--reveal-step, 70ms) * 8);
+}
+
+/* ---------- reduced motion: show everything, animate nothing ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .group > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

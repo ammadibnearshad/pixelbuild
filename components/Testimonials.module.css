@@ -1,0 +1,207 @@
+.section {
+  padding: 90px var(--page-gutter);
+  /* Near-identical to the solid band colour, but lets the pixel field ghost through. */
+  background: rgba(16, 18, 16, 0.86);
+  border-top: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.inner {
+  max-width: 900px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 3.8vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.viewport {
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+.track {
+  display: flex;
+  transition: transform 0.65s var(--ease-out-soft);
+}
+
+.slide {
+  min-width: 100%;
+  padding: 0 6px;
+}
+
+/* Inactive slides sit back slightly, so the swap has depth rather than
+   sliding two flat panels past each other. */
+.card {
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface-quote);
+  padding: clamp(26px, 4vw, 44px);
+  margin: 0;
+  opacity: 0.35;
+  transform: scale(0.95);
+  transition:
+    opacity 0.6s var(--ease-out-soft),
+    transform 0.6s var(--ease-out-soft);
+}
+
+.slide[data-active='true'] .card {
+  opacity: 1;
+  transform: none;
+}
+
+.stars {
+  color: var(--accent);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 2.4vw, 27px);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  margin: 0 0 26px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--surface-avatar);
+  flex-shrink: 0;
+}
+
+.name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.role {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.prev,
+.next {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    transform 0.3s var(--ease-out-soft);
+}
+
+.prev {
+  background: transparent;
+  border: 1px solid var(--border-stronger);
+  color: var(--text);
+}
+
+.prev:hover {
+  border-color: var(--accent-border-hover);
+  transform: translateX(-3px);
+}
+
+.next {
+  background: var(--accent);
+  border: none;
+  color: var(--bg);
+  font-weight: 700;
+}
+
+.next:hover {
+  background: var(--accent-hover);
+  transform: translateX(3px);
+}
+
+.prev:active,
+.next:active {
+  transform: scale(0.94);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 24px hit area around a 8px visual dot. */
+.dot {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.dot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--border-stronger);
+  transition:
+    width 0.4s var(--ease-out-soft),
+    background 0.4s var(--ease-out-soft);
+}
+
+.dot:hover::before {
+  background: var(--text-dim);
+}
+
+.dot[data-active='true']::before {
+  width: 22px;
+  background: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .card,
+  .prev,
+  .next,
+  .dot::before {
+    transition: none;
+  }
+
+  .prev:hover,
+  .next:hover {
+    transform: none;
+  }
+}
