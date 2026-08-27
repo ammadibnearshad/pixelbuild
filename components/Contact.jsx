@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { contactEmail } from '@/lib/content';
 import Reveal, { RevealGroup } from './Reveal';
 import SplitWords from './SplitWords';
@@ -9,17 +9,38 @@ import styles from './Contact.module.css';
 
 export default function Contact() {
   const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'sent' | 'error'
+  const [error, setError] = useState('');
+  const mountedAt = useRef(Date.now());
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    if (status === 'sending') return;
+
+    const data = Object.fromEntries(new FormData(event.currentTarget));
     setStatus('sending');
+    setError('');
 
-    // TODO: POST to the real CRM / booking endpoint and validate server-side.
-    // const data = Object.fromEntries(new FormData(event.currentTarget));
-    // const res = await fetch('/api/contact', { method: 'POST', body: JSON.stringify(data) });
-    // if (!res.ok) return setStatus('error');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        // `elapsed` lets the route reject a form filled faster than a human could.
+        body: JSON.stringify({ ...data, elapsed: Date.now() - mountedAt.current }),
+      });
 
-    setStatus('sent');
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        setError(body.error || '');
+        setStatus('error');
+        return;
+      }
+
+      setStatus('sent');
+    } catch {
+      // Offline, DNS, blocked by an extension — never a validation problem.
+      setError('');
+      setStatus('error');
+    }
   };
 
   return (
@@ -53,6 +74,14 @@ export default function Contact() {
               </div>
             ) : (
               <form className={styles.form} onSubmit={onSubmit} noValidate={false}>
+                {/* Honeypot. Off-screen rather than display:none — some bots skip
+                    hidden inputs but happily fill a positioned one. Never shown to
+                    a person, so it is hidden from assistive tech too. */}
+                <div className={styles.trap} aria-hidden="true">
+                  <label htmlFor="company">Company (leave this empty)</label>
+                  <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+                </div>
+
                 <label className={styles.field}>
                   <span className={styles.labelText}>Your name</span>
                   <input
@@ -100,7 +129,8 @@ export default function Contact() {
 
                 {status === 'error' ? (
                   <p className={styles.error} role="alert">
-                    Something went wrong. Please email {contactEmail} instead.
+                    {error ? `${error} ` : 'Something went wrong. '}
+                    You can always email us at {contactEmail}.
                   </p>
                 ) : null}
 

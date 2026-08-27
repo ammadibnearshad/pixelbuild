@@ -77,6 +77,16 @@
   opacity: 0.7;
 }
 
+/* Honeypot. Pushed off-screen instead of display:none — some bots deliberately
+   skip inputs they can tell are hidden, but fill a positioned one. */
+.trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form {
   display: flex;
   flex-direction: column;

@@ -41,11 +41,19 @@ export default function About() {
 
           <RevealGroup className={styles.mosaic} variant="scale" step={110}>
             <div className={styles.tall}>
-              <Placeholder label="Team at work" sizes="(max-width: 900px) 50vw, 300px" />
+              <Placeholder
+                src="/images/about-team.webp"
+                alt="Three members of The Pixel Build team reviewing a Shopify storefront on a monitor"
+                sizes="(max-width: 900px) 50vw, 300px"
+              />
             </div>
             <div className={styles.stack}>
               <div className={styles.square}>
-                <Placeholder label="Studio detail" sizes="(max-width: 900px) 50vw, 300px" />
+                <Placeholder
+                  src="/images/about-studio.webp"
+                  alt="Laptop showing a store wireframe beside a notebook of hand-drawn page layouts"
+                  sizes="(max-width: 900px) 50vw, 300px"
+                />
               </div>
               <div className={styles.statTile}>
                 <div className={styles.statValue}>
