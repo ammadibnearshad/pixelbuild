@@ -1,0 +1,250 @@
+.section {
+  padding: 110px var(--page-gutter);
+}
+
+.header {
+  max-width: 62ch;
+  margin-bottom: 64px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.lead {
+  margin-top: 20px;
+  max-width: 52ch;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ---- steps --------------------------------------------------------------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 40px;
+}
+
+/* The descending stagger — the reference's staircase, kept shallow so the row
+   still reads as one band rather than a diagonal. */
+.step {
+  position: relative;
+  padding-right: 8px;
+}
+
+.step:nth-child(2) {
+  margin-top: 38px;
+}
+
+.step:nth-child(3) {
+  margin-top: 76px;
+}
+
+.step:nth-child(4) {
+  margin-top: 114px;
+}
+
+/* Outlined numeral. Falls back to a solid muted numeral where text-stroke is
+   unsupported, rather than to invisible text. */
+.num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(58px, 6vw, 86px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--accent-muted);
+  transition:
+    color 0.5s var(--ease-out-soft),
+    -webkit-text-stroke-color 0.5s var(--ease-out-soft),
+    text-shadow 0.5s var(--ease-out-soft),
+    transform 0.5s var(--ease-out-soft);
+}
+
+@supports (-webkit-text-stroke: 2px currentColor) {
+  .num {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--accent-muted);
+  }
+}
+
+.title {
+  margin-top: 22px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--text-dim);
+  transition: color 0.5s var(--ease-out-soft);
+}
+
+.body {
+  margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.62;
+}
+
+.meta {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 7px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-faint);
+  transition:
+    border-color 0.5s var(--ease-out-soft),
+    color 0.5s var(--ease-out-soft);
+}
+
+/* ---- connectors ---------------------------------------------------------- */
+
+.arrow {
+  position: absolute;
+  top: 14px;
+  left: calc(100% - 34px);
+  width: 92px;
+  height: 54px;
+  color: var(--accent);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.arrowPath {
+  stroke-dasharray: 132;
+  stroke-dashoffset: 132;
+  transition: stroke-dashoffset 0.9s var(--ease-out-soft);
+}
+
+/* Drawn once the row arrives, each one trailing the step it leaves. */
+.steps[data-shown='true'] .step:nth-child(1) .arrowPath {
+  transition-delay: 0.42s;
+  stroke-dashoffset: 0;
+}
+
+.steps[data-shown='true'] .step:nth-child(2) .arrowPath {
+  transition-delay: 0.54s;
+  stroke-dashoffset: 0;
+}
+
+.steps[data-shown='true'] .step:nth-child(3) .arrowPath {
+  transition-delay: 0.66s;
+  stroke-dashoffset: 0;
+}
+
+/* ---- hover --------------------------------------------------------------- */
+
+@media (hover: hover) and (pointer: fine) {
+  .step:hover .num {
+    color: var(--accent);
+    -webkit-text-stroke-color: var(--accent);
+    text-shadow: 0 0 26px rgba(200, 247, 81, 0.35);
+    transform: translateY(-3px);
+  }
+
+  .step:hover .title {
+    color: var(--text);
+  }
+
+  .step:hover .meta {
+    border-color: var(--accent-border-hover);
+    color: var(--accent);
+  }
+}
+
+/* ---- compact ------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 44px 32px;
+    padding-bottom: 0;
+  }
+
+  /* Two rows of two: only the first of each pair still carries an arrow. */
+  .step:nth-child(2) {
+    margin-top: 38px;
+  }
+
+  .step:nth-child(3) {
+    margin-top: 0;
+  }
+
+  .step:nth-child(4) {
+    margin-top: 38px;
+  }
+
+  .step:nth-child(2) .arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .section {
+    padding: 76px var(--page-gutter);
+  }
+
+  .header {
+    margin-bottom: 44px;
+  }
+
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  /* Stacked: the numerals carry the sequence, so the arrows would only point
+     off the side of the column. The stagger is unwound by restating the same
+     selectors later in the file rather than by raising specificity. */
+  .step {
+    padding-right: 0;
+  }
+
+  .step:nth-child(2),
+  .step:nth-child(3),
+  .step:nth-child(4) {
+    margin-top: 0;
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  .num {
+    font-size: 52px;
+  }
+
+  .title {
+    margin-top: 16px;
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrowPath {
+    transition: none;
+    stroke-dashoffset: 0;
+  }
+
+  .num,
+  .title,
+  .meta {
+    transition: none;
+  }
+
+  .step:hover .num {
+    transform: none;
+  }
+}

@@ -1,0 +1,259 @@
+.section {
+  padding: 110px var(--page-gutter);
+}
+
+/* Heading column pins while the rail scrolls past it. */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 80px;
+  align-items: start;
+}
+
+.aside {
+  position: sticky;
+  top: 116px;
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 4.4vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.lead {
+  margin-top: 20px;
+  max-width: 42ch;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ---- rail ---------------------------------------------------------------- */
+
+.rail {
+  position: relative;
+  --rail: 0;
+}
+
+/* Line ends at the centre of the first and last tile: 26px item padding
+   + half the 56px tile. */
+.track,
+.fill {
+  position: absolute;
+  left: 27px;
+  top: 54px;
+  bottom: 54px;
+  width: 2px;
+  border-radius: 2px;
+}
+
+.track {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--border-strong) 0 5px,
+    transparent 5px 11px
+  );
+}
+
+.fill {
+  background: linear-gradient(to bottom, var(--accent-deep), var(--accent));
+  transform: scaleY(var(--rail));
+  transform-origin: top;
+}
+
+.head {
+  position: absolute;
+  left: 28px;
+  top: calc(54px + (100% - 108px) * var(--rail));
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 4px rgba(200, 247, 81, 0.14), 0 0 18px 2px rgba(200, 247, 81, 0.45);
+}
+
+/* ---- items --------------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Positioned so the tiles always paint over the rail — during the reveal the
+   row is mid-transform and mid-opacity, which would otherwise put it in its own
+   stacking context below the absolutely positioned line. */
+.item {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 24px;
+  padding: 26px 0;
+  align-items: start;
+}
+
+.tile {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-well);
+  color: var(--text-faint);
+  transition:
+    background 0.45s var(--ease-out-soft),
+    border-color 0.45s var(--ease-out-soft),
+    color 0.45s var(--ease-out-soft),
+    box-shadow 0.45s var(--ease-out-soft),
+    transform 0.45s var(--ease-out-soft);
+}
+
+.tile svg {
+  width: 24px;
+  height: 24px;
+}
+
+.index {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent-muted);
+  transition: color 0.45s var(--ease-out-soft);
+}
+
+.title {
+  margin-top: 7px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.02em;
+  color: var(--text-dim);
+  transition: color 0.45s var(--ease-out-soft);
+}
+
+.body {
+  margin-top: 9px;
+  max-width: 46ch;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+/* Scroll-driven emphasis. */
+.item[data-active='true'] .tile {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #0a0a0a;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 6px rgba(200, 247, 81, 0.07),
+    0 10px 30px rgba(200, 247, 81, 0.16);
+}
+
+.item[data-active='true'] .index {
+  color: var(--accent);
+}
+
+.item[data-active='true'] .title {
+  color: var(--text);
+}
+
+/* Hover previews the same emphasis without competing with the active tile. */
+@media (hover: hover) and (pointer: fine) {
+  .item:hover .tile {
+    border-color: var(--accent-border-mid);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .item[data-active='true']:hover .tile {
+    color: #0a0a0a;
+  }
+
+  .item:hover .title {
+    color: var(--text);
+  }
+}
+
+/* ---- compact ------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .section {
+    padding: 76px var(--page-gutter);
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .aside {
+    position: static;
+  }
+
+  .item {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 18px;
+    padding: 20px 0;
+  }
+
+  .tile {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+  }
+
+  .tile svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .track,
+  .fill {
+    left: 23px;
+    top: 44px;
+    bottom: 44px;
+  }
+
+  .head {
+    left: 24px;
+    top: calc(44px + (100% - 88px) * var(--rail));
+  }
+
+  .title {
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No scroll writes to `--rail`, so show the line already drawn and drop the
+     tracker dot. Colour still marks the active pillar; nothing moves. */
+  .fill {
+    transform: scaleY(1);
+  }
+
+  .head {
+    display: none;
+  }
+
+  .tile,
+  .index,
+  .title {
+    transition: none;
+  }
+
+  .item[data-active='true'] .tile,
+  .item:hover .tile {
+    transform: none;
+  }
+}

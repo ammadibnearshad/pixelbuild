@@ -51,16 +51,17 @@ export default function Hero() {
               →
             </span>
           </a>
-          <a href="#work" className={styles.secondary}>
+          {/* Restore alongside <Work /> in app/page.js */}
+          {/* <a href="#work" className={styles.secondary}>
             See our work
-          </a>
+          </a> */}
         </Reveal>
 
         <Reveal className={styles.mediaWrap} variant="scale" stagger={4}>
           <div ref={mediaRef} className={styles.media}>
-            {/* Swap for a real screenshot: <Placeholder src="/hero.jpg" alt="…" priority /> */}
             <Placeholder
-              label="Drop a store screenshot or team photo"
+              src="/images/hero-shopify-plus.webp"
+              alt="Shopify storefront, mobile checkout and analytics dashboard designed by The Pixel Build"
               priority
               sizes="(max-width: 1240px) 100vw, 1240px"
             />
